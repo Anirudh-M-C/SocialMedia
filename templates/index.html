@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-3kK1p4hH9V4nIgPHvKio8MGrtMFP3nENXtZ4/jLQy7d8oy9W97fH1X3EoQ5ovYzMf+pSOve9MQN43kJ6wWL9vQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
         .fa-refresh {
             transition: transform 0.5s;
@@ -71,12 +74,47 @@
     
                             <!-- notivication header -->
                             <div class="px-4 py-3 -mx-5 -mt-4 mb-5 border-b">
-                                <h4>Upload Pics or Videos</h4>
+                                <h4>POST</h4>
                             </div>
     
                             <!-- notification contents -->
-                            <div class="flex justify-center flex-center text-center">
-    
+                            <style>
+                                .custom-file-upload{
+                                    background-color: #000000;
+                                    position: relative;
+                                    padding: 8px 18px;
+                                    line-height: 22px;
+                                    font-weight: 500;
+                                    font-size: 15px;
+                                    display: inline-block;
+                                    -webkit-transition: all 0.2s ease-in-out;
+                                    transition: all 0.2s ease-in-out;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    border: none;
+                                    border-radius: 4px;
+                                    color: #fff;
+                                }
+                                .submit{
+                                    background-color: #be185d;
+                                    position: relative;
+                                    padding: 8px 18px;
+                                    line-height: 22px;
+                                    font-weight: 500;
+                                    font-size: 15px;
+                                    display: inline-block;
+                                    -webkit-transition: all 0.2s ease-in-out;
+                                    transition: all 0.2s ease-in-out;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    border: none;
+                                    border-radius: 4px;
+                                    color: #fff;
+                                }
+                            </style>
+                            <div class="">
+                            <form action="uploads/" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
                                 <div class="flex flex-col choose-upload text-center">
                                    
                                     <div class="bg-gray-100 border-2 border-dashed flex flex-col h-24 items-center justify-center relative w-full rounded-lg  ">
@@ -86,19 +124,21 @@
                                         </svg>
                                     </div>
 
-                                    <p class="my-3 leading-6"> Upload pics or videos <br> please upload her ..
+                                    <p class="my-3 leading-6"> Upload photos<br>
                                     </p>
-                                    <div uk-form-custom>
-                                        <input type="file">
-                                        <a href="#" class="button soft-warning small"> Choose file</a>
+                                    <div >
+                                        <label for="file-upload" class="custom-file-upload ">
+                                            Choose File
+                                        </label>
+                                        <input id="file-upload" type="file" name="image_upload" style="display: none;">
+                                        <textarea class="button soft-warning small" name="caption" placeholder="What is happening..." id=""></textarea>
+                                        <br>
+                                        <button class=" button submit" type="submit">POST</button>
                                     </div>
-    
-                                    <a href="#" class="uk-text-muted mt-3 uk-link"
-                                        uk-toggle="target: .choose-upload ;  animation: uk-animation-slide-right-small, uk-animation-slide-left-medium; queued: true">
-                                        Or Import Video </a>
                                 </div>
+                            </form>
     
-                                <div class="uk-flex uk-flex-column choose-upload" hidden>
+                                <!-- <div class="uk-flex uk-flex-column choose-upload" hidden>
                                     <div class="mx-auto flex flex-col h-24 items-center justify-center relative w-full rounded-lg">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-12">
                                             <path fill-rule="evenodd" d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z" clip-rule="evenodd" />
@@ -115,9 +155,10 @@
                                     <a href="#" class="uk-text-muted mt-3 uk-link"
                                         uk-toggle="target: .choose-upload ; animation: uk-animation-slide-left-small, uk-animation-slide-right-medium; queued: true">
                                         Or Upload Video </a>
-                                </div>
+                                </div> -->
     
                             </div>
+                        
                             <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
                                 Your Video size Must be Maxmium 999MB
                             </div>
@@ -154,7 +195,7 @@
                         <!-- Messages -->
 
                         <a href="#" class="header-links-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="0.5em" height="0.5em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/></g></svg>
+                            <svg style="width:20px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="0.5em" height="0.5em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/></g></svg>
                         </a>
                         <div uk-drop="mode: click;offset: 4" class="header_dropdown">
                             <h4
@@ -163,7 +204,7 @@
                             <ul class="dropdown_scrollbar" data-simplebar>
                                 <li>
                                     <a href="#">
-                                        <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="">
+                                        <div class="drop_avatar"> <img  src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="">
                                         </div>
                                         <div class="drop_content">
                                             <strong> Taiye </strong> <time> 6:43 PM</time>
@@ -181,7 +222,7 @@
                         <!-- profile -->
 
                         <a href="#">
-                            <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="header-avatar" alt="">
+                            <img src="{{user_profile.profile_img.url}}" class="header-avatar" alt="">
                         </a>
                         <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
                             <ul>
@@ -206,20 +247,22 @@
                     <div class="space-y-5 flex-shrink-0 lg:w-7/12">
 
                         <!-- post 1-->
+                        {% for post in posts reversed %}
                         <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0">
     
                             <!-- post header-->
+
                             <div class="flex justify-between items-center px-4 py-3">
                                 <div class="flex flex-1 items-center space-x-4">
                                     <a href="#">
                                         <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">  
-                                            <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                                            <img src="{{post.profile_img.profile_img.url}}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
                                         </div>
                                     </a>
-                                    <span class="block capitalize font-semibold "> tomi_ml </span>
+                                    <span class="block capitalize font-semibold "> {{post.user}}</span>  <p style="font-size: 13px;">&#x2022; {{post.posted_at | timesince}} ago</p>
                                 </div>
                               <div>
-                                <a href="#"> <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i> </a>
+                                 <i class="icon-feather-more-horizontal text-2xl hover:bg-gray-200 rounded-full p-2 transition -mr-1 "></i> 
                                 <div class="bg-white w-56 shadow-md mx-auto p-2 mt-12 rounded-md text-gray-500 hidden text-base border border-gray-100  " uk-drop="mode: hover;pos: top-right">
                               
                                     <ul class="space-y-1">
@@ -256,49 +299,72 @@
                                 </div>
                               </div>
                             </div>
-    
+
                             <div uk-lightbox>
-                                <a href="{% static 'assets/images/post/img4.jpg' %}">  
-                                    <img src="{% static 'assets/images/post/img4.jpg' %}" alt="">
+                                <a href="{{post.image.url}}">  
+                                    <img src="{{post.image.url}}" alt="">
                                 </a>
                             </div>
+
+    
+
                             
     
                             <div class="py-3 px-4 space-y-3"> 
                                
                                 <div class="flex space-x-4 lg:font-bold">
                                     <a href="#" class="flex items-center space-x-2">
-                                        <div class="p-2 rounded-full text-black">
+                                        <div class="">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="25" height="25" class="">
                                                 <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                             </svg>
                                         </div>
+
                                         
                                     </a>
                                     <a href="#" class="flex items-center space-x-2">
-                                        <div class="p-2 rounded-full text-black">
+                                        <div class="p-2 ">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="25" height="25" class="">
                                                 <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z" clip-rule="evenodd" />
                                             </svg>
                                         </div>
-                                        
                                     </a>
+
+
+                                    <a href="#" class="flex items-center space-x-2">
+                                        <div class="p-2 ">
+                                            <i style="font-size: 19px;" class="fa fa-paper-plane"></i>
+
+
+                                        </div>
+                                    </a>
+
+
+
                                     <a href="#" class="flex items-center space-x-2 flex-1 justify-end">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="25" height="25" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M8.5 1.5A1.5 1.5 0 0 1 10 0h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h6c-.314.418-.5.937-.5 1.5v6h-2a.5.5 0 0 0-.354.854l2.5 2.5a.5.5 0 0 0 .708 0l2.5-2.5A.5.5 0 0 0 10.5 7.5h-2v-6z"/></g></svg>
                                         
                                     </a>
+
                                 </div>
-                                <div class="flex items-center space-x-3"> 
-                                    <div class="flex items-center">
+
+                                <div style="margin-top: 0;" class="flex items-center space-x-3"> 
+                                    <!-- <div class="flex items-center">
                                         <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white ">
                                         <img src="{% static 'assets/images/avatars/avatar-4.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white  -ml-2">
                                         <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white  -ml-2">
-                                    </div>
-                                    <div class="">
-                                        Liked <strong> taiye</strong> and <strong> 209 Others </strong>
+                                    </div> -->
+                                    <div style="font-size: 14px;" class="">
+                                         <strong> 209 </strong>Likes
                                     </div>
                                 </div>
 
+
+                                <div style="display: flex;">
+                                    <p style="padding-right: 10px;color:black;"><i style="padding-right: 3px;" class="fa fa-user" aria-hidden="true"></i><b>{{post.user}}</b></p><p style="font-size: 14px;">{{post.caption}}</p>
+                                </div>
+                                <hr>
+<!-- 
                                 <div class="border-t pt-4 space-y-4 ">
                                     <div class="flex">
                                         <div class="w-10 h-10 rounded-full relative flex-shrink-0">
@@ -310,17 +376,7 @@
                                             <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 "></div>
                                         </div>
                                     </div>
-                                    <div class="flex">
-                                        <div class="w-10 h-10 rounded-full relative flex-shrink-0">
-                                            <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}" alt="" class="absolute h-full rounded-full w-full">
-                                        </div>
-                                        <div class="text-gray-700 py-2 px-3 rounded-md bg-gray-100 h-full relative lg:ml-5 ml-2 lg:mr-20   ">
-                                            <p class="leading-6">She's my favourite <i class="uil-grin-tongue-wink-alt"></i>
-                                            </p>
-                                            <div class="absolute w-3 h-3 top-3 -left-1 bg-gray-100 transform rotate-45 "></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div> -->
 
                                 <div class="bg-gray-100 bg-gray-100 rounded-full rounded-md relative ">
                                     <input type="text" placeholder="post a comment" class="bg-transparent max-h-10 shadow-none">
@@ -333,12 +389,13 @@
                             </div>
     
                         </div>
+                        {% endfor %}
     
                         <!-- post 2-->                       
                     
-                        <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0">
+                        <!-- <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0">
     
-                            <!-- post header-->
+                            
                             <div class="flex justify-between items-center px-4 py-3">
                                 <div class="flex flex-1 items-center space-x-4">
                                     <a href="#">
@@ -472,19 +529,19 @@
     
                             </div>
     
-                        </div>
+                        </div> -->
 
                         <!-- Load more-->
-                        <div class="flex justify-center mt-6" id="toggle" uk-toggle="target: #toggle ;animation: uk-animation-fade">
+                        <!-- <div class="flex justify-center mt-6" id="toggle" uk-toggle="target: #toggle ;animation: uk-animation-fade">
                             <a href="#"
                                 class="bg-white  font-semibold my-3 px-6 py-2 rounded-full shadow-md  ">
                                 Load more ..</a>
-                        </div>
+                        </div> -->
  
                         <!-- post 3-->
-                        <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0" id="toggle" hidden>
+                        <!-- <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0" id="toggle" hidden>
     
-                            <!-- post header-->
+                          
                             <div class="flex justify-between items-center px-4 py-3">
                                 <div class="flex flex-1 items-center space-x-4">
                                     <a href="#">
@@ -608,12 +665,12 @@
     
                             </div>
     
-                        </div>
+                        </div> -->
                         
                         <!-- post 4-->
-                        <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0" id="toggle" hidden>
+                        <!-- <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0" id="toggle" hidden>
   
-                          <!-- post header-->
+                         
                           <div class="flex justify-between items-center px-4 py-3">
                               <div class="flex flex-1 items-center space-x-4">
                                   <a href="#">
@@ -739,14 +796,14 @@
   
                           </div>
   
-                        </div>
+                        </div> -->
                         
                         <!-- Load more-->
-                        <div class="flex justify-center mt-6" id="toggle" hidden>
+                        <!-- <div class="flex justify-center mt-6" id="toggle" hidden>
                             <a href="#"
                                 class="bg-white  font-semibold my-3 px-6 py-2 rounded-full shadow-md  ">
                                 Load more ..</a>
-                        </div>
+                        </div> -->
 
 
                     </div>

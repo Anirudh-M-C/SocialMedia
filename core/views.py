@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from django.contrib.auth import get_user_model,login,logout as authlogout,authenticate
 from django.contrib import messages
-from .models import Profile
+from .models import Profile,Post
 from django.contrib.auth.decorators import login_required
 
 User=get_user_model()
@@ -10,10 +11,34 @@ User=get_user_model()
 
 @login_required(login_url='signin')
 def index(request):
+    user_profile=Profile.objects.get(user=request.user)
+    posts=Post.objects.all()
     context={
-        'a':''
+        'user_profile':user_profile,
+        'posts':posts
     }
     return render(request,'index.html',context)
+
+
+
+@login_required(login_url='signin')
+def uploads(request):
+    if request.method == 'POST':
+        user = request.user.username
+        image = request.FILES.get('image_upload')
+        caption = request.POST['caption']
+        
+        # Fetch the user's profile
+        user_profile = Profile.objects.get(user=request.user)
+        
+        # Create a new post with the user's profile image and the uploaded image
+        new_post = Post.objects.create(user=user, profile_img=user_profile, image=image, caption=caption)
+        new_post.save()
+        
+        return redirect('/')
+    else:
+        return redirect('/')
+
 
 def signup(request):
     if request.POST:
@@ -63,6 +88,8 @@ def logout(request):
     authlogout(request)
     return redirect('signin')
 
+
+@login_required(login_url='signin')
 def settings(request):
     user_profile=Profile.objects.get(user=request.user)
     if request.POST:
