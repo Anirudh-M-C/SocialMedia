@@ -31,12 +31,14 @@ def signup(request):
             else:
                 user=User.objects.create_user(username=username,email=email,password=password1)
                 user.save()
-                #log user in and direct to settings page
+                #log user in and direct to settings 
+                user_login=authenticate(username=username,password=password1)
+                login(request,user_login)
                 #create a profile object for the new user
                 user_model=User.objects.get(username=username)
                 new_profile=Profile.objects.create(user=user_model,id_user=user_model.id)
                 new_profile.save()
-                return redirect('signup')
+                return redirect('settings')
         else:
             messages.info(request, 'password not matching')
             return redirect ('signup')
@@ -60,3 +62,24 @@ def signin(request):
 def logout(request):
     authlogout(request)
     return redirect('signin')
+
+def settings(request):
+    user_profile=Profile.objects.get(user=request.user)
+    if request.POST:
+        bio = request.POST.get('bio')
+        location = request.POST.get('location')
+        
+        # Check if a new image was uploaded
+        if request.FILES.get('profile_img') is None:
+            image = user_profile.profile_img
+            user_profile.profile_img = image
+        else:
+            image = request.FILES.get('profile_img')
+            user_profile.profile_img = image
+        
+        user_profile.bio = bio
+        user_profile.location = location
+        user_profile.save()
+        
+        return redirect('settings')
+    return render(request,'setting.html',{'user_profile':user_profile})

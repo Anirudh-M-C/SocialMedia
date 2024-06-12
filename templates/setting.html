@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">
-    <title>Settings</title>
+    <title>Settings - connectify</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
@@ -25,130 +25,86 @@
 
             <div class="container m-auto"> 
 
-                <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"> Account Setting </h1>
+                <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"> <a style="font-weight: bold;" href="/">Home </a>/ Account Setting </h1>
+
+
+                    <style>
+                        .custom-file-upload{
+                            position: relative;
+                            padding: 8px 18px;
+                            line-height: 22px;
+                            font-weight: 500;
+                            font-size: 15px;
+                            display: inline-block;
+                            -webkit-transition: all 0.2s ease-in-out;
+                            transition: all 0.2s ease-in-out;
+                            cursor: pointer;
+                            overflow: hidden;
+                            border: none;
+                            border-radius: 4px;
+                            background-color: #be185d;
+                            color: #fff;
+                        }
+                    </style>
+                    <script>
+                        function previewImage(event) {
+                            var reader = new FileReader();
+                            reader.onload = function() {
+                                var output = document.getElementById('profile-img');
+                                output.src = reader.result;
+                            }
+                            reader.readAsDataURL(event.target.files[0]);
+                        }
+                    </script>
+
+
                 <ul class="mt-5 -mr-3 flex-nowrap lg:overflow-hidden overflow-x-scroll uk-tab">
                     <li class="uk-active"><a href="#">General</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Notification</a></li>
-                    <li><a href="#">Social links</a></li>
-                    <li><a href="#">Billing</a></li>
-                    <li><a href="#">Security</a></li>
+
                 </ul>
-
-                <div class="grid lg:grid-cols-3 mt-12 gap-8">
-                    <div>
-                        <h3 class="text-xl mb-2"> Basic</h3>
-                        <p></p>
-                    </div>
-                    <div class="bg-white rounded-md lg:shadow-lg shadow col-span-2">
-    
-                       <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
-                           <div>
-                               <label for=""> First name</label>
-                               <input type="text" placeholder="Your name.." class="shadow-none bg-gray-100">
-                           </div>
-                           <div>
-                               <label for=""> Last name</label>
-                               <input type="text" placeholder="Your name.." class="shadow-none bg-gray-100">
-                            </div>
-                            <div class="col-span-2">
-                                <label for=""> Email</label>
-                                <input type="text" placeholder="Your name.." class="shadow-none bg-gray-100">
-                            </div>
-                            <div class="col-span-2">
-                                <label for="about">About me</label>  
-                                <textarea id="about" name="about" rows="3"  class="shadow-none bg-gray-100"></textarea>
-                            </div> 
-                            <div class="col-span-2">
-                                <label for=""> Location</label>
-                                <input type="text" placeholder="" class="shadow-none bg-gray-100">
-                            </div>
-                            <div>
-                               <label for=""> Working at</label>
-                               <input type="text" placeholder="" class="shadow-none bg-gray-100">
-                            </div> 
-                            <div>
-                               <label for=""> Relationship </label>
-                               <select id="relationship" name="relationship"  class="shadow-none bg-gray-100">
-                                <option value="0">None</option>
-                                <option value="1">Single</option>
-                                <option value="2">In a relationship</option>
-                                <option value="3">Married</option>
-                                <option value="4">Engaged</option>
-                              </select>
-                            </div>
-                       </div> 
-    
-                       <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
-                           <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> Cancel </button>
-                           <button type="button" class="button bg-blue-700"> Save </button>
-                       </div>
-    
-                    </div>
-
-                    <div>
-                        <h3 class="text-xl mb-2"> Privacy</h3>
-                        <p> </p>
-                    </div>
-                    <div class="bg-white rounded-md lg:shadow-lg shadow lg:p-6 p-4 col-span-2">
-
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Who can follow me ?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox"><span class="switch-button"></span> </label>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="grid lg:grid-cols-3 mt-12 gap-8">
+                        <div class="bg-white rounded-md lg:shadow-lg shadow col-span-2">
+                            <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
+                                <div class="col-span-2" style="margin-bottom: 30px;">
+                                    <div style="height: 80px; background: rgb(182, 182, 182); margin-top: 25px; border-radius: 5px; display: flex; justify-content: space-around; align-items: center">
+                                        <div style="display: flex; justify-content: space-around; align-items: center; width: 170px">
+                                            <img id="profile-img" style="border-radius: 50%; height: 62px; width: 62px;border:4px solid #ca2067;" src="{{ user_profile.profile_img.url }}" alt="Profile Image">
+                                            <h5><b>{{ user.username }}</b></h5>
+                                        </div>
+                                        <label for="file-upload" class="custom-file-upload">
+                                            Change Profile
+                                        </label>
+                                        <input id="file-upload" type="file" name="profile_img" style="display: none;" onchange="previewImage(event)">
+                                    </div>
+                                </div>
+                                <div class="col-span-2">
+                                    <label for="about">Bio</label>
+                                    <textarea id="about" name="bio" rows="3" class="shadow-none bg-gray-100 lg:p-6">{{ user_profile.bio }}</textarea>
+                                </div>
+                                <div class="col-span-2">
+                                    <label for="">Location</label>
+                                    <input type="text" value="{{ user_profile.location }}" name="location" placeholder="" class="shadow-none bg-gray-100">
+                                </div>
+                                <div>
+                                    <label for="">Gender</label>
+                                    <select style="padding-left: 10px;" id="relationship" name="gender" class="shadow-none bg-gray-100">
+                                        <option value="male" {% if user_profile.gender == 'male' %}selected{% endif %}>Male</option>
+                                        <option value="female" {% if user_profile.gender == 'female' %}selected{% endif %}>Female</option>
+                                        <option value="other" {% if user_profile.gender == 'other' %}selected{% endif %}>Other</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Show my activities ?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox" checked><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Search engines?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox"><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Allow Commenting?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox"><span class="switch-button"></span> </label>
-                                </div>
+                            <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
+                                <a href="/"><button type="button" class="p-2 px-4 rounded bg-gray-50 text-red-500">Cancel</button></a>
+                                <button type="submit" class="button bg-blue-700">Save</button>
                             </div>
                         </div>
                     </div>
-    
-                    </div>
-                    <br>
-
-                </div>
-
+                </form>
             </div>
+            <br><br>
             
         </div>
 

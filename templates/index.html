@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'favicon.png' %}" rel="icon" type="image/png">
-    <title>Home</title>
+    <title>Home - connectify</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,9 +38,9 @@
                 <div class="header_inner">
                     <div class="left-side">
                         <!-- Logo -->
-                        <div id="logo" class=" uk-hidden@s">
+                        <div id="logo" class="" style="padding-right:30px">
                             <a href="home.html">
-                                <b><h1 style="text-transform: uppercase;">Social Book</h1></b>
+                                <b><h1 style="text-transform: uppercase;">connectify</h1></b>
                             </a>
                         </div>
 
@@ -185,8 +185,8 @@
                         </a>
                         <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
                             <ul>
-                                <li><a href="setting.html"> Account setting </a> </li>
-                                <li><a href="explore.html">explore </a> </li>
+                                <li><a href="">Profile </a> </li>
+                                <li><a href="{% url 'settings' %}"> Account setting </a> </li>
                                 <li><a href="#"> Help </a> </li>
                                 <li><a href="{% url 'logout' %}"> Log Out</a></li>
                             </ul>
