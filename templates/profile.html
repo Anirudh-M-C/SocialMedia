@@ -24,6 +24,7 @@
 
 </head>
 <body>
+	{% include 'header.html' %}
 <!--<div class="se-pre-con"></div>-->
 <div class="theme-layout">
 	
@@ -32,9 +33,10 @@
 	<section>
 			<div class="feature-photo">
 				<figure><img style="height:250px" src="{% static 'images/resources/timeline-1.jpg' %}" alt=""></figure>
-				<form>
+				<form action="{% url 'follow' %}" method="POST">
+					{% csrf_token %}
 					<div  style="display: flex;" class="add-btn">
-					<span style="color: white; font-size: 27px; margin-right: 330px;"><b><u><a href="/"><img style="height:80px;width:115px;filter: brightness(0) saturate(100%) invert(100%);" src="{% static 'images/resources/home.png' %}" alt=""></a></u></b></span>
+					<span style="color: white; font-size: 27px; margin-right: 330px;"><b><u><a href="/"><img style="height:60px;width:95px;filter: brightness(0) saturate(100%) invert(100%);" src="{% static 'images/resources/home.png' %}" alt=""></a></u></b></span>
 					<table style="border-spacing: 30px;width:100%">
 						<tr>
 							{% if user_post_length == 0 or user_post_length == 1 %}
@@ -42,9 +44,18 @@
 							{% else %}
 							<td style="background:rgba(0, 0, 0, 0.495);padding-left:100px; color: white; font-size: 27px;text-align: center;">{{user_post_length}}<span style="color: rgb(222, 222, 222);font-size:20px"> <br> POSTS</span></td>
 							{% endif %}
-							<td style="background:rgba(0, 0, 0, 0.495);padding-left:100px; color: white; font-size: 27px;text-align: center"><b><span style="text-align: center;">1.7m </span><br><span style="color: rgb(222, 222, 222);font-size:20px">FOLLOWERS</span></b></td>
-							<td style="background:rgba(0, 0, 0, 0.495);padding-left:100px;padding-right:20px;  color: white; font-size: 27px;text-align: center"><b>3 <br><span style="color: rgb(222, 222, 222);font-size:20px">FOLLOWING</span></b></td>
-							<td style="background:rgba(0, 0, 0, 0.495);width: 100px;padding-right:20px"><a href="" title="" data-ripple=""><button style="margin-left:30px;width:100px;height:40px;background-color: #ffc0cb; border: #ffc0cb;">Follow</button></a></td>
+							<td style="background:rgba(0, 0, 0, 0.495);padding-left:100px; color: white; font-size: 27px;text-align: center"><b><span style="text-align: center;">{{user_followers}} </span><br><span style="color: rgb(222, 222, 222);font-size:20px">FOLLOWERS</span></b></td>
+							<td style="background:rgba(0, 0, 0, 0.495);padding-left:100px;padding-right:20px;  color: white; font-size: 27px;text-align: center"><b>{{user_following}} <br><span style="color: rgb(222, 222, 222);font-size:20px">FOLLOWING</span></b></td>
+							<td style="background:rgba(0, 0, 0, 0.495);width: 100px;padding-right:20px">
+								<input type="hidden" value="{{user.username}}" name="follower">
+								<input type="hidden" value="{{user_object.username}}" name="user">
+								{% if user_object.username == user.username %}
+								<a href="/settings" title="" data-ripple=""><button style="margin-left:30px;width:130px;height:40px;background-color: #ffc0cb; border: #ffc0cb;" type="button">Edit Profile</button></a></td>
+								{% else %}
+								<a href="" title="" data-ripple=""><button style="margin-left:30px;width:100px;height:40px;background-color: #ffc0cb; border: #ffc0cb;" type="submit">
+									{{button_text}}
+								</button></a></td>
+								{% endif %}
 						</tr>
 					</table>
 					
@@ -152,7 +163,7 @@
 								</div><!-- photos -->
 							</div><!-- centerl meta -->
 							<div class="">
-								<aside class="sidebar static">
+								<aside class="">
 									
 								</aside>
 							</div><!-- sidebar -->

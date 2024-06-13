@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile,Post,Like
+from .models import Profile,Post,Like,Followerscount
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'profile_img', 'image', 'caption', 'created_at', 'posted_at')
@@ -7,3 +7,4 @@ class PostAdmin(admin.ModelAdmin):
 admin.site.register(Profile)
 admin.site.register(Post,PostAdmin)
 admin.site.register(Like)
+admin.site.register(Followerscount)
