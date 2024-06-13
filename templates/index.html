@@ -226,7 +226,7 @@
                         </a>
                         <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
                             <ul>
-                                <li><a href="">Profile </a> </li>
+                                <li><a href="{% url 'profile' request.user.username %}">Profile </a> </li>
                                 <li><a href="{% url 'settings' %}"> Account setting </a> </li>
                                 <li><a href="#"> Help </a> </li>
                                 <li><a href="{% url 'logout' %}"> Log Out</a></li>
@@ -311,17 +311,18 @@
                             
     
                             <div class="py-3 px-4 space-y-3"> 
-                               
                                 <div class="flex space-x-4 lg:font-bold">
-                                    <a href="#" class="flex items-center space-x-2">
+
+
+                                    <a href="/like-post?post_id={{post.id}}" class="flex items-center space-x-2">
                                         <div class="">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="25" height="25" class="">
                                                 <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
                                             </svg>
                                         </div>
-
-                                        
                                     </a>
+
+
                                     <a href="#" class="flex items-center space-x-2">
                                         <div class="p-2 ">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="25" height="25" class="">
@@ -334,8 +335,6 @@
                                     <a href="#" class="flex items-center space-x-2">
                                         <div class="p-2 ">
                                             <i style="font-size: 19px;" class="fa fa-paper-plane"></i>
-
-
                                         </div>
                                     </a>
 
@@ -355,13 +354,19 @@
                                         <img src="{% static 'assets/images/avatars/avatar-2.jpg' %}" alt="" class="w-6 h-6 rounded-full border-2 border-white  -ml-2">
                                     </div> -->
                                     <div style="font-size: 14px;" class="">
-                                         <strong> 209 </strong>Likes
+                                        {% if post.no_of_likes == 0 %}
+                                        <strong><a href="">No Likes</a></strong>
+                                         {% elif post.no_of_likes == 1 %}
+                                         <strong> {{post.no_of_likes}} </strong><a href="">Like</a>
+                                         {% else %}
+                                         <strong> {{post.no_of_likes}} </strong>Likes
+                                         {% endif %}
                                     </div>
                                 </div>
 
 
                                 <div style="display: flex;">
-                                    <p style="padding-right: 10px;color:black;"><i style="padding-right: 3px;" class="fa fa-user" aria-hidden="true"></i><b>{{post.user}}</b></p><p style="font-size: 14px;">{{post.caption}}</p>
+                                    <p style="padding-right: 10px;color:black;"><b>{{post.user}}</b></p><p style="font-size: 14px;">{{post.caption}}</p>
                                 </div>
                                 <hr>
 <!-- 

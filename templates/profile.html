@@ -6,16 +6,21 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-	<title>Profile - {{username}}</title>
+	<title>Profile - {{user_profile.user.username}}</title>
    <!-- <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> -->
     
     <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/color.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
 
 </head>
 <body>
@@ -26,14 +31,22 @@
 	
 	<section>
 			<div class="feature-photo">
-				<figure><img src="{% static 'images/resources/timeline-1.jpg' %}" alt=""></figure>
+				<figure><img style="height:250px" src="{% static 'images/resources/timeline-1.jpg' %}" alt=""></figure>
 				<form>
-					<div class="add-btn">
-					<span style="color: white; font-size: 27px; margin-right: 520px;"><b><u><a href="/">Home</a></u></b></span>
-					<span style="color: white; font-size: 27px;"><b>11 Post</b></span>
-					<span style="color: white; font-size: 27px;"><b>1.7m followers</b></span>
-					<span style="color: white; font-size: 27px;"><b>3.5k following</b></span>
-					<a href="" title="" data-ripple=""><button style="background-color: #ffc0cb; border: #ffc0cb;">Follow</button></a>
+					<div  style="display: flex;" class="add-btn">
+					<span style="color: white; font-size: 27px; margin-right: 330px;"><b><u><a href="/"><img style="height:80px;width:115px;filter: brightness(0) saturate(100%) invert(100%);" src="{% static 'images/resources/home.png' %}" alt=""></a></u></b></span>
+					<table style="border-spacing: 30px;width:100%">
+						<tr>
+							{% if user_post_length == 0 or user_post_length == 1 %}
+							<td style="background:rgba(0, 0, 0, 0.495);padding-left:20px; color: white; font-size: 27px;text-align: center"><b>{{user_post_length}} <br> <span style="color: rgb(222, 222, 222);font-size:20px">POST</span></b></td>
+							{% else %}
+							<td style="background:rgba(0, 0, 0, 0.495);padding-left:100px; color: white; font-size: 27px;text-align: center;">{{user_post_length}}<span style="color: rgb(222, 222, 222);font-size:20px"> <br> POSTS</span></td>
+							{% endif %}
+							<td style="background:rgba(0, 0, 0, 0.495);padding-left:100px; color: white; font-size: 27px;text-align: center"><b><span style="text-align: center;">1.7m </span><br><span style="color: rgb(222, 222, 222);font-size:20px">FOLLOWERS</span></b></td>
+							<td style="background:rgba(0, 0, 0, 0.495);padding-left:100px;padding-right:20px;  color: white; font-size: 27px;text-align: center"><b>3 <br><span style="color: rgb(222, 222, 222);font-size:20px">FOLLOWING</span></b></td>
+							<td style="background:rgba(0, 0, 0, 0.495);width: 100px;padding-right:20px"><a href="" title="" data-ripple=""><button style="margin-left:30px;width:100px;height:40px;background-color: #ffc0cb; border: #ffc0cb;">Follow</button></a></td>
+						</tr>
+					</table>
 					
 					</div>
 				</form>
@@ -50,7 +63,7 @@
 						<div class="col-lg-2 col-sm-3">
 							<div class="user-avatar">
 								<figure>
-									<img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" style="height: 250px; width: 100%;" alt="">
+									<img src="{{user_profile.profile_img.url}}" style="height: 250px; width: 100%;" alt="">
 									<form class="edit-phto">
 										<i class="fa fa-camera-retro"></i>
 										<label class="fileContainer">
@@ -64,7 +77,7 @@
 							<div class="timeline-info">
 								<ul>
 									<li class="admin-name">
-									  <h5 style="color: black;white-space: nowrap; width: 110px; font-size: 27px;"><b>@username</b><!--<i class="fa fa-check-circle" style="color: #48dbfb;" aria-hidden="true"></i>--></h5>
+									  <h5 style="color: black;white-space: nowrap; width: 110px; font-size: 27px;"><b>{{user_profile.user}}</b><!--<i class="fa fa-check-circle" style="color: #48dbfb;" aria-hidden="true"></i>--></h5>
 									  <!--<span>Group Admin</span>-->
 									</li>
 									<!--<li>
@@ -92,7 +105,7 @@
 		</section><!-- top area -->
 		<section>
 			<div class="bio">
-				Bio goes here...
+				{{user_profile.bio}}
 			</div>
 		</section>
 		
@@ -102,8 +115,8 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="row" id="page-contents">
-							<div class="col-lg-3">
-								<aside class="sidebar static">
+							<div class="">
+								<aside class="">
 									
 									
 									
@@ -120,30 +133,25 @@
 
 
 							<div class="col-lg-6">
-								<div class="central-meta">
-									<ul class="photos">
+								
+								<div style="border-radius: 0px;box-shadow:none;width: 1500px;" class="central-meta">
+									<ul style="margin-bottom: 20px;" class="mt-5 -mr-3 flex-nowrap lg:overflow-hidden overflow-x-scroll uk-tab">
+										<li class="uk-active"><a href="#">POST</a></li>
 					
+									</ul>
+									<ul class="photos">
+										{% for post in user_posts reversed %}
 										<li>
-											<a class="strip" href="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-												<img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" style="height: 250px; width: 300px;" alt=""></a>
+											<a class="strip" href="{{post.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+												<img src="{{post.image.url}}" style="height: 250px; width: 250px;background-size:cover;" alt="post"></a>
 										</li>
-
-										<li>
-											<a class="strip" href="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-												<img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" style="height: 250px; width: 300px;" alt=""></a>
-										</li>
-
-										<li>
-											<a class="strip" href="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-												<img src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" style="height: 250px; width: 300px;" alt=""></a>
-										</li>
-										
+										{% endfor %}
 										
 									</ul>
 									<!--<div class="lodmore"><button class="btn-view btn-load-more"></button></div>-->
 								</div><!-- photos -->
 							</div><!-- centerl meta -->
-							<div class="col-lg-3">
+							<div class="">
 								<aside class="sidebar static">
 									
 								</aside>
@@ -157,7 +165,7 @@
 
 	
 	
-	<script data-cfasync="false" src="{% static '../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script><script src="js/main.min.js"></script>
+	<script data-cfasync="false" src="{% static '../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script><script src="{% static 'js/main.min.js' %}"></script>
 	<script src="{% static 'js/script.js' %}"></script>
 
 </body>	

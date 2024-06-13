@@ -23,7 +23,7 @@ class Profile(models.Model):
         return self.user.username
     
 class Post(models.Model):
-    id = models.UUIDField(primary_key=True,default=uuid.uuid4)
+    id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     user = models.CharField(max_length=100)
     profile_img=models.ForeignKey(Profile,on_delete=models.CASCADE)
     image = models.ImageField(upload_to='post_images')
@@ -34,3 +34,10 @@ class Post(models.Model):
 
 def __str__(self):
     return self.user
+
+class Like(models.Model):
+    post_id=models.CharField(max_length=200)
+    username=models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.username

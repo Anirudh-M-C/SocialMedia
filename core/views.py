@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model,login,logout as authlogout,authenticate
 from django.contrib import messages
-from .models import Profile,Post
+from .models import Profile,Post,Like
 from django.contrib.auth.decorators import login_required
 
 User=get_user_model()
@@ -20,6 +20,38 @@ def index(request):
     return render(request,'index.html',context)
 
 
+@login_required(login_url='signin')
+def profile(request,pk):
+    user_object=User.objects.get(username=pk)
+    user_profile=Profile.objects.get(user=user_object)
+    user_posts=Post.objects.filter(user=pk)
+    user_post_length=len(user_posts)
+    context={
+        'user_object':user_object,
+        'user_profile':user_profile,
+        'user_posts':user_posts,
+        'user_post_length':user_post_length
+    }
+    return render(request,'profile.html',context)
+
+
+@login_required(login_url='signin')
+def like_post(request):
+    username=request.user.username
+    post_id=request.GET.get('post_id')
+    post=Post.objects.get(id=post_id)
+    like_filter=Like.objects.filter(post_id=post_id,username=username).first()
+    if like_filter:
+        like_filter.delete()
+        post.no_of_likes=post.no_of_likes-1
+        post.save()
+        return redirect('/')
+    else:
+        new_like=Like.objects.create(post_id=post_id,username=username)
+        new_like.save()
+        post.no_of_likes=post.no_of_likes+1
+        post.save()
+        return redirect('/')
 
 @login_required(login_url='signin')
 def uploads(request):
@@ -108,5 +140,5 @@ def settings(request):
         user_profile.location = location
         user_profile.save()
         
-        return redirect('settings')
+        return redirect('/')
     return render(request,'setting.html',{'user_profile':user_profile})
