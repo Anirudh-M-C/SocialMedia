@@ -16,6 +16,7 @@ class Profile(models.Model):
     id_user = models.IntegerField()
     bio= models.TextField(blank=True)
     profile_img= models.ImageField(upload_to='profile_imgages', default='blank-image.webp')
+    header_img = models.ImageField(upload_to='header_images', default='timelineheader.jpg')
     location= models.CharField(max_length=100, blank=True)
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='other')
 
@@ -49,3 +50,12 @@ class Followerscount(models.Model):
 
     def __str__(self):
         return self.user
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(default=datetime.now)
+
+    def __str__(self):
+        return f'Comment by {self.user.username} on {self.post}'

@@ -32,7 +32,7 @@
 	
 	<section>
 			<div class="feature-photo">
-				<figure><img style="height:250px" src="{% static 'images/resources/timeline-1.jpg' %}" alt=""></figure>
+				<figure><img style="height:320px;width:100%;object-fit: cover;" src="{{user_profile.header_img.url}}" alt=""></figure>
 				<form action="{% url 'follow' %}" method="POST">
 					{% csrf_token %}
 					<div  style="display: flex;" class="add-btn">
@@ -153,10 +153,12 @@
 									<ul class="photos">
 										{% for post in user_posts reversed %}
 										<li>
-											<a class="strip" href="{{post.image.url}}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
-												<img src="{{post.image.url}}" style="height: 250px; width: 250px;background-size:cover;" alt="post"></a>
+											<a class="strip" href="{{ post.image.url }}" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+												<img src="{{ post.image.url }}" style="height: 250px; width: 250px; object-fit: cover;" alt="post">
+											</a>
 										</li>
 										{% endfor %}
+										
 										
 									</ul>
 									<!--<div class="lodmore"><button class="btn-view btn-load-more"></button></div>-->

@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import Profile,Post,Like,Followerscount
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 
 User=get_user_model()
 
@@ -14,6 +15,7 @@ User=get_user_model()
 def index(request):
     user_profile=Profile.objects.get(user=request.user)
     posts=Post.objects.all()
+
     context={
         'user_profile':user_profile,
         'posts':posts
@@ -119,13 +121,13 @@ def settings(request):
         bio = request.POST.get('bio')
         location = request.POST.get('location')
         
-        # Check if a new image was uploaded
-        if request.FILES.get('profile_img') is None:
-            image = user_profile.profile_img
-            user_profile.profile_img = image
-        else:
-            image = request.FILES.get('profile_img')
-            user_profile.profile_img = image
+         # Update profile image if a new one is uploaded
+        if request.FILES.get('profile_img'):
+            user_profile.profile_img = request.FILES.get('profile_img')
+        
+        # Update header image if a new one is uploaded
+        if request.FILES.get('header_img'):
+            user_profile.header_img = request.FILES.get('header_img')
         
         user_profile.bio = bio
         user_profile.location = location

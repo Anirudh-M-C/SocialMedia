@@ -55,6 +55,15 @@
                             }
                             reader.readAsDataURL(event.target.files[0]);
                         }
+
+                        function previewHeader(event) {
+                            var reader = new FileReader();
+                            reader.onload = function() {
+                                var output = document.getElementById('header-img');
+                                output.src = reader.result;
+                            }
+                            reader.readAsDataURL(event.target.files[0]);
+                        }
                     </script>
 
 
@@ -67,6 +76,7 @@
                     <div class="grid lg:grid-cols-3 mt-12 gap-8">
                         <div class="bg-white rounded-md lg:shadow-lg shadow col-span-2">
                             <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
+                                <img src="{{ user_profile.header_img.url }}" style="width:100%;height:250px" alt="">
                                 <div class="col-span-2" style="margin-bottom: 30px;">
                                     <div style="height: 80px; background: rgb(182, 182, 182); margin-top: 25px; border-radius: 5px; display: flex; justify-content: space-around; align-items: center">
                                         <div style="display: flex; justify-content: space-around; align-items: center; width: 170px">
@@ -79,6 +89,10 @@
                                         <input id="file-upload" type="file" name="profile_img" style="display: none;" onchange="previewImage(event)">
                                     </div>
                                 </div>
+                                <label style="width:155px" for="file-upload" class="custom-file-upload">
+                                    Change Header
+                                </label>
+                                <input id="file-upload" type="file" name="header_img" style="display: none;" onchange="previewHeader(event)">
                                 <div class="col-span-2">
                                     <label for="about">Bio</label>
                                     <textarea id="about" name="bio" rows="3" class="shadow-none bg-gray-100 lg:p-6">{{ user_profile.bio }}</textarea>
