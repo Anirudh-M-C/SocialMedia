@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model,login,logout as authlogout,authen
 from django.contrib import messages
 from .models import Profile,Post,Like,Followerscount
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
 
 User=get_user_model()
 
@@ -85,6 +86,54 @@ def uploads(request):
         return redirect('/')
     else:
         return redirect('/')
+    
+
+@login_required(login_url='signin')
+def edit_uploads(request,pk):
+    post = get_object_or_404(Post, pk=pk)
+    post = get_object_or_404(Post, pk=pk)
+    
+    if request.method == 'POST':
+        # Update existing post with form data
+        post.caption = request.POST['caption']
+        if 'image_upload' in request.FILES:
+            post.image = request.FILES['image_upload']
+        post.save()
+        
+        return redirect('/')
+    
+    return render(request, 'edit_uploads.html', {'post': post})
+    
+
+@login_required(login_url='signin')
+def delete_uploads(request,pk):
+    post=Post.objects.get(pk=pk)
+    post.delete()
+    return redirect('/')
+    
+
+@login_required(login_url='signin')
+def settings(request):
+    user_profile=Profile.objects.get(user=request.user)
+    if request.POST:
+        bio = request.POST.get('bio')
+        location = request.POST.get('location')
+        
+        # Check if a new image was uploaded
+        if request.FILES.get('profile_img') is None:
+            image = user_profile.profile_img
+            user_profile.profile_img = image
+        else:
+            image = request.FILES.get('profile_img')
+            user_profile.profile_img = image
+        
+        user_profile.bio = bio
+        user_profile.location = location
+        user_profile.save()
+        
+        return redirect('/')
+    return render(request,'setting.html',{'user_profile':user_profile})
+
 
 
 @login_required(login_url='signin')
@@ -153,26 +202,3 @@ def signin(request):
 def logout(request):
     authlogout(request)
     return redirect('signin')
-
-
-@login_required(login_url='signin')
-def settings(request):
-    user_profile=Profile.objects.get(user=request.user)
-    if request.POST:
-        bio = request.POST.get('bio')
-        location = request.POST.get('location')
-        
-        # Check if a new image was uploaded
-        if request.FILES.get('profile_img') is None:
-            image = user_profile.profile_img
-            user_profile.profile_img = image
-        else:
-            image = request.FILES.get('profile_img')
-            user_profile.profile_img = image
-        
-        user_profile.bio = bio
-        user_profile.location = location
-        user_profile.save()
-        
-        return redirect('/')
-    return render(request,'setting.html',{'user_profile':user_profile})

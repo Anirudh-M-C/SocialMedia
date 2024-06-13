@@ -1,0 +1,109 @@
+{% include "header.html" %}
+<style>
+    .custom-file-upload{
+        background-color: #000000;
+        position: relative;
+        padding: 8px 18px;
+        line-height: 22px;
+        font-weight: 500;
+        font-size: 15px;
+        display: inline-block;
+        -webkit-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        overflow: hidden;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+    }
+    .submit{
+        background-color: #be185d;
+        position: relative;
+        padding: 8px 18px;
+        line-height: 22px;
+        font-weight: 500;
+        font-size: 15px;
+        display: inline-block;
+        -webkit-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        overflow: hidden;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+    }
+</style>
+
+
+
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+
+<div style="margin-bottom:200px;" class="container m-auto">
+
+    <div  class="bg-white shadow rounded-md  -mx-2 lg:mx-0">
+
+        <!-- post header-->
+
+        <div class="flex justify-between items-center px-4 py-3">
+            <div class="flex flex-1 items-center space-x-4">
+                <a href="#">
+                    <div class="bg-gradient-to-tr from-yellow-600 to-pink-600 p-0.5 rounded-full">  
+                        <img src="{{post.profile_img.profile_img.url}}" class="bg-gray-200 border border-white rounded-full w-8 h-8">
+                    </div>
+                </a>
+                <span class="block capitalize font-semibold "> {{post.user}}</span>  <p style="font-size: 13px;">&#x2022; {{post.posted_at | timesince}} ago</p>
+            </div>
+        </div>
+
+        <div uk-lightbox>
+            <img id="image_preview" src="{{post.image.url}}" alt="">
+            <label for="file-upload" class="custom-file-upload">
+                Change image
+            </label>
+            <input id="file-upload" type="file" name="image_upload" style="display: none;" onchange="previewImage(event)">
+        </div>
+        
+
+        <div class="py-3 px-4 space-y-3"> 
+            <div class="flex space-x-4 lg:font-bold">
+
+
+
+
+
+            <div >
+                <p style="padding-right: 10px;color:black;"><b>{{post.user}}</b></p>
+                <textarea style="width: 500px;" class="button soft-warning small" name="caption" placeholder="What is happening..." id="">{{post.caption}}</textarea>
+                <br>
+                <button class=" button submit" type="submit">POST</button>
+            </div>
+            <hr>
+
+
+
+        </div>
+
+    </div>
+
+
+
+</div>
+</div>
+</form>
+
+
+
+
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                var output = document.getElementById('image_preview');
+                output.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+    
