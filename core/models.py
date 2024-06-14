@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 import uuid
 from datetime import datetime
+from django.utils import timezone
 
 User=get_user_model()
 
@@ -54,8 +55,27 @@ class Followerscount(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile_img=models.ForeignKey(Profile,on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return f'Comment by {self.user.username} on {self.post}'
+    
+
+class Notification(models.Model):
+    NOTIFICATION_TYPES = (
+        (1, 'Like'),
+        (2, 'Comment'),
+        (3, 'Follow')
+    )
+
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications_sent')
+    receiver = models.CharField(max_length=100)
+    notification_type = models.IntegerField(choices=NOTIFICATION_TYPES)
+    text_preview = models.CharField(max_length=90, blank=True)
+    date = models.DateTimeField(default=timezone.now)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.sender}to {self.receiver}'

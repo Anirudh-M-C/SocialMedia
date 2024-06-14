@@ -5,6 +5,7 @@ urlpatterns = [
     path('',views.index,name='index'),
     path('signup/',views.signup,name='signup'),
     path('signin/',views.signin,name='signin'),
+    path('search/',views.search,name='search'),
     path('logout/',views.logout,name="logout"),
     path('follow/',views.follow,name="follow"),
     path('settings/',views.settings,name="settings"),
@@ -12,5 +13,6 @@ urlpatterns = [
     path('edit_uploads/<str:pk>/',views.edit_uploads,name="edit_uploads"),
     path('delete_uploads/<str:pk>/',views.delete_uploads,name="delete_uploads"),
     path('like-post/',views.like_post,name="like-post"),
-    path('profile/<pk>',views.profile,name='profile')
+    path('profile/<pk>',views.profile,name='profile'),
+    path('add-comment/', views.add_comment, name='add_comment'),
 ]
