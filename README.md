@@ -14,3 +14,4 @@ commenting,
 notification,
 user suggestion,
 search user,
+![Screenshot (74)](https://github.com/Anirudh-M-C/SocialMedia/assets/110151367/c43bd865-2514-478f-957a-2e59ddbf030f)
